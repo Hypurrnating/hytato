@@ -85,7 +85,7 @@ class POTATO():
 
         def STAIN(self, starch: str = 'data'):
             """Reads STATO file. Starch specifies what part you want to read.\n
-            Type 'data' (default) for the simple dictionary stored inside, or 'config' for the preferences set during planting\n
+            Type 'data' (default) for the simple dictionary stored inside, or 'config' for the preferences set during planting. 'history' is not yet supported\n
             returns a dictionary with keys and values of python objects"""
 
             match starch:
@@ -93,6 +93,7 @@ class POTATO():
                     starch = 'data.txt'
                 case 'config':
                     starch = 'config.potato'
+                case 'history'
                 case _:
                     starch = starch + '.potato'
             read = ZipFile(self.potato, 'r').read(name=starch).decode().split('\n')
