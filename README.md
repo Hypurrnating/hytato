@@ -29,7 +29,7 @@ config_potato.PLANT(['token', 'passcode', 'prefix'])
 
 #when the potato has been planted, the values to the keys will all be none, so now add the data
 
-config_potato.INJECT({'token': 112233, 'passcode': 'gugugaga', 'prefix': 'urmom'})
+config_potato.INJECT({'token': 112233, 'passcode': 'gugugaga', 'fatherless': True})
 
 #if it succeeded, it wont raise an error lol
 #but you can also assign it to a variable beforehand
