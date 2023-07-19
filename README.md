@@ -15,8 +15,11 @@ STATO or soft potato dont have a fixed number of keys.
 
 There are a number of other differences which will be made clear later
 
-### Usage
+One difference being that STATO files are inherently different. The HTATO files are really just `.txt`, whereas STATO are zip files.\
+This means you can store a "tree" of data, and also version history
 
+### Usage
+HTATO example:
 ```py
 from potato import POTATO
 
