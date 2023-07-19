@@ -82,8 +82,6 @@ class POTATO():
             """Creates a HTATO file at the path and adds None to all keys. Users must update the keys using INJECT method.\n
             returns a list: [bool, potato path, keys in the potato file]"""
 
-            if self.potato.exists() == True:
-                raise POTATOExists('Found existing HTATO file with same name in same dir')
             potatofile_string = str()
             for x in KEYS:
                 potatofile_string += f'{x}: None' + '\n'        
