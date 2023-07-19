@@ -1,5 +1,5 @@
-.htato
-.stato
+*.htato
+*.stato
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
