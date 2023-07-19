@@ -113,7 +113,7 @@ class POTATO():
 
             stained = self.STAIN()
             for x in DATA.keys():
-                if stained.get(x) == None:
+                if bool(list(stained.keys()).count(x)) == False:
                     raise HTATOKey(f'The key: "{x}" is not in the original hard potato file.')
                 stained[x] = DATA[x]
             potatofile_string = str()
@@ -130,4 +130,3 @@ class POTATO():
         
 
 potato = POTATO()
-print(potato.HTATO(pathlib.Path('conng.htato')).STAIN())
