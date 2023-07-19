@@ -39,7 +39,7 @@ config_potato.INJECT({'token': 112233, 'passcode': 'gugugaga', 'fatherless': Tru
 #and then check the first index of the list returned
 #i.e:
 
-injection = config_potato.INJECT({'token': 112233, 'passcode': 'gugugaga', 'prefix': 'urmom'})
+injection = config_potato.INJECT({'token': 112233, 'passcode': 'gugugaga', 'fatherless': True})
 if injection[0] == True:
     print('yipee')
 
