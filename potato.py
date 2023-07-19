@@ -93,7 +93,8 @@ class POTATO():
                     starch = 'data.txt'
                 case 'config':
                     starch = 'config.potato'
-                case 'history'
+                case 'history':
+                    return 'Not supported'
                 case _:
                     starch = starch + '.potato'
             read = ZipFile(self.potato, 'r').read(name=starch).decode().split('\n')
