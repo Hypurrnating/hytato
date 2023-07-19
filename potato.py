@@ -30,28 +30,52 @@ class HTATOKey(KeyError):
 
 def CheckPotatoExistant(fn):
     """must have self parameter and the potato path inside self parameter: self.potato"""
-    def func(*args):
+    def func(*args, **kwargs):
         if args[0].potato.exists() == True:
             raise POTATOExists('Found existing potato file at path')
-        return fn(*args)
+        return fn(*args, **kwargs)
     return func
 
 def CheckPotatoNonExistant(fn):
     """must have self parameter and the potato path inside self parameter: self.potato"""
-    def func(*args):
+    def func(*args, **kwargs):
         if args[0].potato.exists() == False:
             raise POTATONonExists('Did not find existing potato file at path')
-        return fn(*args)
+        return fn(*args, **kwargs)
     return func
 
+# Return classes:
 
 class potato_returns():
+    class stato():
+        class StatoPlantReturn():
+            def __init__(self, complete, path, keys, version_history, encryption):
+                self.complete = complete
+                self.path = path
+                self.keys = keys
+                self.version_history = version_history
+                self.encryption = encryption
+
+        class StatoInjectReturn():
+            def __init__(self, complete, update, all):
+                self.complete = complete
+                self.update = update
+                self.all = all
+
     class htato():
         class HtatoPlantReturn():
             def __init__(self, complete, path, keys):
                 self.complete = complete
                 self.path = path
                 self.keys = keys
+
+        class HtatoInjectReturn():
+            def __init__(self, complete, update, all):
+                self.complete = complete
+                self.update = update
+                self.all = all
+
+# All Hail Potato:
 
 class POTATO():
     class STATO():
@@ -64,9 +88,9 @@ class POTATO():
                 raise NotSTATO('Not an STATO file')
 
         @CheckPotatoExistant
-        def PLANT(self, KEYS: list, version_history: bool = True, encryption: bool = False) -> list:
+        def PLANT(self, KEYS: list, version_history: bool = True, encryption: bool = False) -> potato_returns.stato.StatoPlantReturn:
             """Creates a STATO file at the path and adds None to all keys. Users must update the keys using INJECT method.\n
-            returns a list: [bool, potato path, keys in potato file]"""
+            returns a StatoPlantReturn class with parameters: complete, path, keys, version_history, encryption"""
 
             if encryption == True:
                 print('Encryption is not currently fully supported')
@@ -78,25 +102,25 @@ class POTATO():
                 potatofile_string += f'{x}: None' + '\n'
             ZipFile(self.potato, 'w').close()
             ZipFile(self.potato, 'a').writestr(data=configfile_string, zinfo_or_arcname='config.potato')
-            ZipFile(self.potato, 'a').writestr(data=potatofile_string, zinfo_or_arcname='data.txt')
+            ZipFile(self.potato, 'a').writestr(data=potatofile_string, zinfo_or_arcname='data.potato')
             ZipFile(self.potato, 'a').mkdir(zinfo_or_directory_name='version_history')
 
-            return [True, self.potato, KEYS]
+            return potato_returns().stato().StatoPlantReturn(complete=True, path=self.potato, keys=KEYS, version_history=version_history, encryption=encryption)
 
-        def STAIN(self, starch: str = 'data'):
+        @CheckPotatoNonExistant
+        def STAIN(self, starch: str = 'data', decryption_key: str = None) -> dict:
             """Reads STATO file. Starch specifies what part you want to read.\n
             Type 'data' (default) for the simple dictionary stored inside, or 'config' for the preferences set during planting. 'history' is not yet supported\n
             returns a dictionary with keys and values of python objects"""
 
             match starch:
                 case 'data':
-                    starch = 'data.txt'
+                    starch = 'data.potato'
                 case 'config':
                     starch = 'config.potato'
                 case 'history':
                     return 'Not supported'
-                case _:
-                    starch = starch + '.potato'
+
             read = ZipFile(self.potato, 'r').read(name=starch).decode().split('\n')
             parsed = dict()
             for x in read:
@@ -107,6 +131,34 @@ class POTATO():
                     parsed[key] = value
             return parsed
 
+        def INJECT(self, data: dict, starch: str = 'data') -> potato_returns.stato.StatoInjectReturn:
+            """Update the data in the potato file at the path. Starch specifies the part you want to edit.\n
+            Type 'data' (default) for the simple dictionary stored inside, or 'config' for the preferences set during planting. 'history' is not yet supported
+            returns a StatoInjectReturn class with parameters: complete, update, all"""
+
+            match starch:
+                case 'data':
+                    starch = 'data.potato'
+                case 'config':
+                    starch = 'config.potato'
+                case 'history':
+                    return 'Not supported'
+
+            stained = self.STAIN(starch=starch)
+            for x in data.keys():
+                stained[x] = data[x]
+            potatofile_string = str()
+            for x in stained.keys():
+                key = x
+                value = stained[key]
+                if type(value) == str:
+                    value = f'"{value}"'
+                potatofile_string += f'{key}: {value}' + '\n'
+
+            # NEEDS ATTENTION!
+            ZipFile(self.potato, 'a').writestr(data=potatofile_string, zinfo_or_arcname=starch)
+
+            return potato_returns.stato.StatoInjectReturn(complete=True, update=data, all=stained)
 
     class HTATO():
         def __init__(self, potato: pathlib.Path) -> None:
@@ -120,7 +172,7 @@ class POTATO():
         @CheckPotatoExistant
         def PLANT(self, KEYS: list) -> potato_returns.htato.HtatoPlantReturn:
             """Creates a HTATO file at the path and adds None to all keys. Users must update the keys using INJECT method.\n
-            returns a plant_return class with parameters: complete, path, keys"""
+            returns a HtatoPlantReturn class with parameters: complete, path, keys"""
 
             potatofile_string = str()
             for x in KEYS:
@@ -147,15 +199,15 @@ class POTATO():
             return parsed
 
         @CheckPotatoNonExistant
-        def INJECT(self, DATA: dict) -> list:
+        def INJECT(self, data: dict) -> potato_returns.htato.HtatoInjectReturn:
             """Update the data in the potato file at the path.\n
-            returns a list: [bool, dictionary of updated data, dictionary of all data]"""
+            returns a HtatoInjectReturn class with parameters: complete, update, all"""
 
             stained = self.STAIN()
-            for x in DATA.keys():
+            for x in data.keys():
                 if bool(list(stained.keys()).count(x)) == False:
                     raise HTATOKey(f'The key: "{x}" is not in the original hard potato file.')
-                stained[x] = DATA[x]
+                stained[x] = data[x]
             potatofile_string = str()
             for x in stained.keys():
                 key = x
@@ -166,10 +218,9 @@ class POTATO():
             potatofile = open(self.potato, 'w')
             potatofile.write(potatofile_string)
             potatofile.close()
-            return [True, DATA, stained]
+
+            return potato_returns().htato().HtatoInjectReturn(complete=True, update=data, all=stained)
 
 POTATO = POTATO()
-
-print(POTATO.STATO('.\\test.stato').STAIN(starch='config'))
-# returned {'version_history': True, 'encryption': False}
-# yipee
+print(POTATO.STATO('.\\gugu.stato').INJECT(data={'oaoa': True}))
+#print(POTATO.STATO('.\\gugu.stato').PLANT(['wee', 'weee', 'weeee']))
