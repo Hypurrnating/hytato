@@ -20,8 +20,8 @@ There are a number of other differences which will be made clear later
 ```py
 from potato import POTATO
 
-# In POTATO() add the path to the potato file, which will have either the .htato or .stato file extension.
-config_potato = POTATO('.\config.htato').HTATO()
+#Add the path of the potato file in HTATO class, which will have either the .htato or .stato file extension.
+config_potato = POTATO().HTATO('.\config.htato')
 
 #if it doesn't exist yet, create the potato file
 #add the list of keys you want
