@@ -27,8 +27,7 @@ config_potato = POTATO().HTATO('.\config.htato')
 #add the list of keys you want
 config_potato.PLANT(['token', 'passcode', 'prefix'])
 
-#when the potato has been planted, the keys will all be none, so now add the data
-#give it a dictionary
+#when the potato has been planted, the values to the keys will all be none, so now add the data
 
 config_potato.INJECT({'token': 112233, 'passcode': 'gugugaga', 'prefix': 'urmom'})
 
