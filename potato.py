@@ -99,8 +99,7 @@ class POTATO():
             parsed = dict()
             for x in read:
                 if bool(x): #since its not .readlines() we need to make sure the string actually has something
-                    # python still sometimes read the \n ending.
-                    x = x.replace("\n", "").split(':')
+                    x = x.replace("\n", "").split(':')  # unlikely to have "\n" in the string now but eh
                     key = x[0].strip()
                     value = ast.literal_eval(x[1].strip())
                     parsed[key] = value
