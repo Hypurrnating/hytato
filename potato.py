@@ -218,9 +218,6 @@ class POTATO():
                     zipfile.writestr(data=history[x], zinfo_or_arcname=x)
                 zipfile.close()
 
-            # NEEDS ATTENTION!
-            #ZipFile(self.potato, 'a').writestr(data=potatofile_string, zinfo_or_arcname=starch)
-
             return potato_returns.stato.StatoInjectReturn(complete=True, update=data, all=data_stained) #all needs to be edited to account for the starch
 
     class HTATO():
