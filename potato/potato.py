@@ -118,13 +118,12 @@ class POTATO():
             Type 'data' (default) for the simple dictionary stored inside, or 'config' for the preferences set during planting. 'history' is not yet supported\n
             returns a dictionary with keys and values of python objects"""
 
-            match starch:
-                case 'data':
-                    starch = 'data.potato'
-                case 'config':
-                    starch = 'config.potato'
-                case 'history':
-                    starch = 'version_history/'
+            if starch == 'data':
+                starch = 'data.potato'
+            if starch == 'config':
+                starch = 'config.potato'
+            if starch == 'history':
+                starch = 'version_history/'
 
             with ZipFile(self.potato, 'r') as zipfile:
                 read = zipfile.read(name=starch).decode().split('\n')
@@ -144,13 +143,12 @@ class POTATO():
             Type 'data' (default) for the simple dictionary stored inside, or 'config' for the preferences set during planting. 'history' is not yet supported
             returns a StatoInjectReturn class with parameters: complete, update, all"""
 
-            match starch:
-                case 'data':
-                    starch = 'data.potato'
-                case 'config':
-                    starch = 'config.potato'
-                case 'history':
-                    raise InvalidSTARCH('This starch is not supported for this method')
+            if starch == 'data':
+                starch = 'data.potato'
+            if starch == 'config':
+                starch = 'config.potato'
+            if starch == 'history':
+                raise InvalidSTARCH('This starch is not supported for this method')
 
             #generate potato file string
             data_stained = self.STAIN(starch='data')
