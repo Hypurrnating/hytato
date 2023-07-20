@@ -1,7 +1,7 @@
-import potato
+from .main import POTATO
 
-STATO = potato.POTATO().STATO('.\\test.stato')
-HTATO = potato.POTATO().HTATO('.\\test.htato')
+STATO = POTATO().STATO('.\\test.stato')
+HTATO = POTATO().HTATO('.\\test.htato')
 
 def test_stato_plant():
     print(STATO.PLANT(['wee', 'weee', 'weeee']))
