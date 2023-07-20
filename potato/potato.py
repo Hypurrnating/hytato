@@ -101,7 +101,7 @@ class POTATO():
             configfile_string += 'encryption: {}'.format(encryption) + '\n'
             potatofile_string = str()
             for x in KEYS:
-                potatofile_string += f'{x}: None' + '\n'
+                potatofile_string += '{}: None'.format(x) + '\n'
 
             ZipFile(self.potato, 'x').close()
             with ZipFile(self.potato, 'a') as zipfile:
@@ -204,7 +204,7 @@ class POTATO():
                         value = old_data[key]
                         if type(value) == str:
                             value = '"{}"'.format(value)
-                        oldpotatofile_string += f'{key}: {value}' + '\n'
+                        oldpotatofile_string += '{}: {}'.format(key, value) + '\n'
                     history['version_history/{}.txt'.format(index)] = oldpotatofile_string
 
                 zipfile.close()
@@ -272,8 +272,8 @@ class POTATO():
                 key = x
                 value = stained[key]
                 if type(value) == str:
-                    value = f'"{value}"'
-                potatofile_string += f'{key}: {value}' + '\n'
+                    value = '"{}"'.format(value)
+                potatofile_string += '{}: {}'.format(key, value) + '\n'
             potatofile = open(self.potato, 'w')
             potatofile.write(potatofile_string)
             potatofile.close()
