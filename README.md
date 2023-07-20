@@ -28,7 +28,7 @@ config_potato = POTATO().HTATO('.\config.htato')
 
 #if it doesn't exist yet, create the potato file
 #add the list of keys you want
-config_potato.PLANT(['token', 'passcode', 'prefix'])
+config_potato.PLANT(['token', 'passcode', 'fatherless'])
 
 #when the potato has been planted, the values to the keys will all be none, so now add the data
 
