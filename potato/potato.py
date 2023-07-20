@@ -97,8 +97,8 @@ class POTATO():
             if encryption == True:
                 print('Encryption is not currently fully supported')
             configfile_string = str()
-            configfile_string += f'version_history: {version_history}' + '\n'
-            configfile_string += f'encryption: {encryption}' + '\n'
+            configfile_string += 'version_history: {}'.format(version_history) + '\n'
+            configfile_string += 'encryption: {}'.format(encryption) + '\n'
             potatofile_string = str()
             for x in KEYS:
                 potatofile_string += f'{x}: None' + '\n'
@@ -161,8 +161,8 @@ class POTATO():
                 key = x
                 value = data_stained[key]
                 if type(value) == str:
-                    value = f'"{value}"'
-                potatofile_string += f'{key}: {value}' + '\n'
+                    value = '"{}"'.format(value)
+                potatofile_string += '{}: {}'.format(key, value) + '\n'
 
             #generate config file string
             config_stained = self.STAIN(starch='config')
@@ -174,8 +174,8 @@ class POTATO():
                 key = x
                 value = config_stained[key]
                 if type(value) == str:
-                    value = f'"{value}"'
-                configfile_string += f'{key}: {value}' + '\n'
+                    value = '"{}"'.format(value)
+                configfile_string += '{}: {}'.format(key, value) + '\n'
 
             #get history as a dict
             with ZipFile(self.potato, 'r') as zipfile:
@@ -203,9 +203,9 @@ class POTATO():
                         key = x
                         value = old_data[key]
                         if type(value) == str:
-                            value = f'"{value}"'
+                            value = '"{}"'.format(value)
                         oldpotatofile_string += f'{key}: {value}' + '\n'
-                    history[f'version_history/{index}.txt'] = oldpotatofile_string
+                    history['version_history/{}.txt'.format(index)] = oldpotatofile_string
 
                 zipfile.close()
 
@@ -235,7 +235,7 @@ class POTATO():
 
             potatofile_string = str()
             for x in KEYS:
-                potatofile_string += f'{x}: None' + '\n'        
+                potatofile_string += '{}: None'.format(x) + '\n'
             potatofile = open(self.potato, 'w')
             potatofile.write(potatofile_string)
             potatofile.close()
@@ -265,7 +265,7 @@ class POTATO():
             stained = self.STAIN()
             for x in data.keys():
                 if bool(list(stained.keys()).count(x)) == False:
-                    raise HTATOKey(f'The key: "{x}" is not in the original hard potato file.')
+                    raise HTATOKey('The key: "{}" is not in the original hard potato file.'.format(x))
                 stained[x] = data[x]
             potatofile_string = str()
             for x in stained.keys():
