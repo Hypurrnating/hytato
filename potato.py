@@ -25,6 +25,8 @@ class NotSTATO(Exception):
     """Exception for when the path passed in class is not an STATO file"""
 class HTATOKey(KeyError):
     """Exception for when the key in data is not part of the original HTATO file"""
+class InvalidSTARCH(Exception):
+    """Exception for when the starch type is not supported for the method"""
 
 # Decorators:
 
@@ -100,10 +102,13 @@ class POTATO():
             potatofile_string = str()
             for x in KEYS:
                 potatofile_string += f'{x}: None' + '\n'
-            ZipFile(self.potato, 'w').close()
-            ZipFile(self.potato, 'a').writestr(data=configfile_string, zinfo_or_arcname='config.potato')
-            ZipFile(self.potato, 'a').writestr(data=potatofile_string, zinfo_or_arcname='data.potato')
-            ZipFile(self.potato, 'a').mkdir(zinfo_or_directory_name='version_history')
+
+            ZipFile(self.potato, 'x').close()
+            with ZipFile(self.potato, 'a') as zipfile:
+                zipfile.writestr(data=configfile_string, zinfo_or_arcname='config.potato')
+                zipfile.writestr(data=potatofile_string, zinfo_or_arcname='data.potato')
+                zipfile.mkdir(zinfo_or_directory_name='version_history')
+                zipfile.close()
 
             return potato_returns().stato().StatoPlantReturn(complete=True, path=self.potato, keys=KEYS, version_history=version_history, encryption=encryption)
 
@@ -121,7 +126,10 @@ class POTATO():
                 case 'history':
                     return 'Not supported'
 
-            read = ZipFile(self.potato, 'r').read(name=starch).decode().split('\n')
+            with ZipFile(self.potato, 'r') as zipfile:
+                read = zipfile.read(name=starch).decode().split('\n')
+                zipfile.close()
+
             parsed = dict()
             for x in read:
                 if bool(x): #since its not .readlines() we need to make sure the string actually has something
@@ -142,23 +150,78 @@ class POTATO():
                 case 'config':
                     starch = 'config.potato'
                 case 'history':
-                    return 'Not supported'
+                    raise InvalidSTARCH('This starch is not supported for this method')
 
-            stained = self.STAIN(starch=starch)
-            for x in data.keys():
-                stained[x] = data[x]
+            #generate potato file string
+            data_stained = self.STAIN(starch='data')
+            old_data = data_stained     #useful in version history
+            if starch == 'data.potato':
+                for x in data.keys():
+                    data_stained[x] = data[x]
             potatofile_string = str()
-            for x in stained.keys():
+            for x in data_stained.keys():
                 key = x
-                value = stained[key]
+                value = data_stained[key]
                 if type(value) == str:
                     value = f'"{value}"'
                 potatofile_string += f'{key}: {value}' + '\n'
 
-            # NEEDS ATTENTION!
-            ZipFile(self.potato, 'a').writestr(data=potatofile_string, zinfo_or_arcname=starch)
+            #generate config file string
+            config_stained = self.STAIN(starch='config')
+            if starch == 'config.potato':
+                for x in data.keys():
+                    config_stained[x] = data[x]
+            configfile_string = str()
+            for x in config_stained.keys():
+                key = x
+                value = config_stained[key]
+                if type(value) == str:
+                    value = f'"{value}"'
+                configfile_string += f'{key}: {value}' + '\n'
 
-            return potato_returns.stato.StatoInjectReturn(complete=True, update=data, all=stained)
+            #get history as a dict
+            with ZipFile(self.potato, 'r') as zipfile:
+                namelist = zipfile.namelist()
+                history = dict()
+                version_history_namelist = list()
+
+                for x in namelist:
+                    if x.startswith('version_history/'):
+                        if bool(x.split('/')[1]):
+                            name = x.split('/')[1]
+                            version_history_namelist.append(name)
+                            content = zipfile.read(x).decode().replace("\r", "") #for some reason there is also \r ending on new lines along with \n. Need to remove it otherwise new lines will increase on each write
+                            history[x] = content    #adding x because it includes the folder
+
+                if config_stained['version_history'] == True:
+                    if bool(version_history_namelist):
+                        index = int(version_history_namelist[len(version_history_namelist)-1].split('.')[0]) + 1
+                    else:
+                        index = int(1)
+                    oldpotatofile_string = str()
+                    for x in old_data.keys():
+                        key = x
+                        value = old_data[key]
+                        if type(value) == str:
+                            value = f'"{value}"'
+                        oldpotatofile_string += f'{key}: {value}' + '\n'
+                    history[f'version_history/{index}.txt'] = oldpotatofile_string
+
+                zipfile.close()
+
+
+            #after this, the old potato is cleared...
+            with ZipFile(self.potato, 'w') as zipfile:
+                zipfile.writestr(data=potatofile_string, zinfo_or_arcname='data.potato')
+                zipfile.writestr(data=configfile_string, zinfo_or_arcname='config.potato')
+                for x in history.keys():
+                    zipfile.writestr(data=history[x], zinfo_or_arcname=x)
+                zipfile.close()
+
+            # NEEDS ATTENTION!
+            #ZipFile(self.potato, 'a').writestr(data=potatofile_string, zinfo_or_arcname=starch)
+
+            return potato_returns.stato.StatoInjectReturn(complete=True, update=data, all=data_stained) #all needs to be edited to account for the starch
 
     class HTATO():
         def __init__(self, potato: pathlib.Path) -> None:
