@@ -1,4 +1,5 @@
 from potato import *
+import os
 
 STATO = POTATO.STATO('.\\test.stato')
 HTATO = POTATO.HTATO('.\\test.htato')
