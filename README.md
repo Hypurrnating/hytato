@@ -1,6 +1,8 @@
 # potato
  Module for storing python dictionaries in a different format.
 
+Currently the max supported python version is python 3.5, however I plan on making it compatible with atleast python 3.3, and maybe 3.0
+
 ### why?
 cause why not?\
 Needed a way to store data in a way that fit *my* needs, and so decided to create potato(lib) 
@@ -24,7 +26,7 @@ HTATO example:
 from potato import POTATO
 
 #Add the path of the potato file in HTATO class, which will have either the .htato or .stato file extension.
-config_potato = POTATO().HTATO('.\config.htato')
+config_potato = POTATO.HTATO('.\\config.htato')
 
 #if it doesn't exist yet, create the potato file
 #add the list of keys you want
