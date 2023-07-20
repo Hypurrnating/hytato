@@ -1,4 +1,5 @@
-from potato import POTATO
+import potato
+POTATO = potato.POTATO()
 
 STATO = POTATO.STATO('.\\test.stato')
 HTATO = POTATO.HTATO('.\\test.htato')
