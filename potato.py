@@ -124,7 +124,7 @@ class POTATO():
                 case 'config':
                     starch = 'config.potato'
                 case 'history':
-                    return 'Not supported'
+                    starch = 'version_history/'
 
             with ZipFile(self.potato, 'r') as zipfile:
                 read = zipfile.read(name=starch).decode().split('\n')
@@ -189,13 +189,15 @@ class POTATO():
                     if x.startswith('version_history/'):
                         if bool(x.split('/')[1]):
                             name = x.split('/')[1]
-                            version_history_namelist.append(name)
+                            index = int(name.split('.')[0])
+                            version_history_namelist.append(index)
                             content = zipfile.read(x).decode().replace("\r", "") #for some reason there is also \r ending on new lines along with \n. Need to remove it otherwise new lines will increase on each write
                             history[x] = content    #adding x because it includes the folder
 
                 if config_stained['version_history'] == True:
                     if bool(version_history_namelist):
-                        index = int(version_history_namelist[len(version_history_namelist)-1].split('.')[0]) + 1
+                        version_history_namelist.sort()
+                        index = version_history_namelist[len(version_history_namelist)-1] + 1
                     else:
                         index = int(1)
                     oldpotatofile_string = str()
@@ -208,7 +210,6 @@ class POTATO():
                     history[f'version_history/{index}.txt'] = oldpotatofile_string
 
                 zipfile.close()
-
 
             #after this, the old potato is cleared...
             with ZipFile(self.potato, 'w') as zipfile:
@@ -282,5 +283,3 @@ class POTATO():
             return potato_returns().htato().HtatoInjectReturn(complete=True, update=data, all=stained)
 
 POTATO = POTATO()
-print(POTATO.STATO('.\\gugu.stato').INJECT(data={'oaoa': True}))
-#print(POTATO.STATO('.\\gugu.stato').PLANT(['wee', 'weee', 'weeee']))
