@@ -281,5 +281,3 @@ class POTATO():
             potatofile.close()
 
             return potato_returns().htato().HtatoInjectReturn(complete=True, update=data, all=stained)
-
-POTATO = POTATO()
