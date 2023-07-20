@@ -107,7 +107,7 @@ class POTATO():
             with ZipFile(self.potato, 'a') as zipfile:
                 zipfile.writestr(data=configfile_string, zinfo_or_arcname='config.potato')
                 zipfile.writestr(data=potatofile_string, zinfo_or_arcname='data.potato')
-                zipfile.mkdir(zinfo_or_directory_name='version_history')
+                zipfile.writestr(data='', zinfo_or_arcname='version_history/')
                 zipfile.close()
 
             return potato_returns().stato().StatoPlantReturn(complete=True, path=self.potato, keys=KEYS, version_history=version_history, encryption=encryption)
