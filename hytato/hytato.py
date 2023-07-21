@@ -1,4 +1,4 @@
-import ast; import os; import sys; from zipfile import ZipFile, ZipInfo; import typing
+import ast; import os; import sys; from zipfile import ZipFile, ZipInfo
 
 '''
 HTATO stands for HARD POTATO. These files must be created by the HTATO class, and has fixed keys.
@@ -84,7 +84,7 @@ class potato_returns():
 
 class POTATO():
     class STATO():
-        def __init__(self, potato: typing.Union[str, os.PathLike]) -> None:
+        def __init__(self, potato: str) -> None:
             """STATO stands for SOFT POTATO. These can have a variable number of keys. Making it more suitable for files that might be used to store temporary data."""
 
             self.potato = os.path.realpath(potato)
@@ -223,7 +223,7 @@ class POTATO():
             return potato_returns.stato.StatoInjectReturn(complete=True, update=data, all=data_stained) #all needs to be edited to account for the starch
 
     class HTATO():
-        def __init__(self, potato: typing.Union[str, os.PathLike]) -> None:
+        def __init__(self, potato: str) -> None:
             """HTATO stands for HARD POTATO. These files must be created by the HTATO class, and has fixed keys. Meaning you can not easily add a new key to it. This makes it more suitable for files storing the permanent data like status or settings."""
 
             self.potato = os.path.realpath(potato)
