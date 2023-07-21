@@ -1,9 +1,11 @@
 # potato
- Module for storing python dictionaries in a different format.\
+ Module for storing python dictionaries in a different format.
+
 Supported down to python 3.2.
 
 ### why?
-cause why not?\
+cause why not?
+
 Needed a way to store data in a way that fit *my* needs, and so decided to create potato(lib) 
 
 Potato works with dictionaries. You could use json for that but as I said, needed something for *my* needs.
@@ -11,12 +13,12 @@ Potato works with dictionaries. You could use json for that but as I said, neede
 ### Potato types
 There are two different kinds of potato files: HTATO and STATO.
 
-HTATO or hard potato have a fixed number of keys.\
+HTATO or hard potato have a fixed number of keys.
 STATO or soft potato don't have a fixed number of keys.
 
 There are a number of other differences which will be made clear later
 
-One difference being that STATO files are inherently different. The HTATO files are really just `.txt`, whereas STATO are zip files.\
+One difference being that STATO files are inherently different. The HTATO files are really just `.txt`, whereas STATO are zip files.
 This means you can store a "tree" of data, and also version history
 
 ### Usage
