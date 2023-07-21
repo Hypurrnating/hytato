@@ -12,7 +12,7 @@ Potato works with dictionaries. You could use json for that but as I said, neede
 There are two different kinds of potato files: HTATO and STATO.
 
 HTATO or hard potato have a fixed number of keys.\
-STATO or soft potato dont have a fixed number of keys.
+STATO or soft potato don't have a fixed number of keys.
 
 There are a number of other differences which will be made clear later
 
@@ -35,13 +35,13 @@ config_potato.PLANT(['token', 'passcode', 'fatherless'])
 
 config_potato.INJECT({'token': 112233, 'passcode': 'gugugaga', 'fatherless': True})
 
-#if it succeeded, it wont raise an error lol
+#if it succeeded, it won't raise an error lol
 #but you can also assign it to a variable beforehand
-#and then check the first index of the list returned
+#and then check from the class returned
 #i.e:
 
 injection = config_potato.INJECT({'token': 112233, 'passcode': 'gugugaga', 'fatherless': True})
-if injection[0] == True:
+if injection.complete == True:
     print('yipee')
 
 #to access the data from potato, use the stain method:
