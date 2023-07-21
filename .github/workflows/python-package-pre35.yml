@@ -26,7 +26,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        echo BROKEN PIP ON THESE VERSIONS (other than 3.4)
+        echo BROKEN PIP ON THESE VERSIONS other than 3.4
     - name: Test with tester_file.py
       run: |
         python tester_file.py
