@@ -1,7 +1,6 @@
 # potato
- Module for storing python dictionaries in a different format.
-
-Currently the max supported python version is python 3.5, however I plan on making it compatible with atleast python 3.3, and maybe 3.0
+ Module for storing python dictionaries in a different format.\
+Supported down to python 3.2.
 
 ### why?
 cause why not?\
