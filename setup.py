@@ -3,6 +3,7 @@ import setuptools; import re
 setuptools.setup(
     name='hy_potato',
     description='Module for storing python dictionaries in a different format.',
+    version='0.2',
     long_description=open('.\\README.md', 'r').read(),
     author='Hypurrnating',
     url='https://github.com/Hypurrnating/potato',
