@@ -26,10 +26,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m ensurepip
-        python -m pip install pytest
-        if ( Test-Path -Path .\requirements.txt -PathType Leaf )
-        { python -m pip install -r requirements.txt }
-    - name: Test with pytest
+        echo BROKEN PIP ON THESE VERSIONS (other than 3.4)
+    - name: Test with tester_file.py
       run: |
-        pytest
+        python tester_file.py
