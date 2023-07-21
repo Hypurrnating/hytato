@@ -13,6 +13,9 @@ Apart from the number of keys, HTATO and STATO have other characteristics that m
 .potato files are for use by potato lib only (!)
 '''
 
+version_major = int(sys.version_info.major)
+version_minor = int(sys.version_info.minor)
+
 # Exceptions:
 
 class POTATOExists(Exception):
@@ -84,7 +87,7 @@ class POTATO():
         def __init__(self, potato: str) -> None:
             """STATO stands for SOFT POTATO. These can have a variable number of keys. Making it more suitable for files that might be used to store temporary data."""
 
-            self.potato = os.fspath(potato)
+            self.potato = os.path.realpath(potato)
             filename = os.path.basename(self.potato).split('.')
             if filename[len(filename)-1] != 'stato':
                 raise NotSTATO('Not an STATO file')
@@ -223,7 +226,7 @@ class POTATO():
         def __init__(self, potato: str) -> None:
             """HTATO stands for HARD POTATO. These files must be created by the HTATO class, and has fixed keys. Meaning you can not easily add a new key to it. This makes it more suitable for files storing the permanent data like status or settings."""
 
-            self.potato = os.fspath(potato)
+            self.potato = os.path.realpath(potato)
             filename = os.path.basename(self.potato).split('.')
             if filename[len(filename)-1] != 'htato':
                 raise NotHTATO('Not an HTATO file')
