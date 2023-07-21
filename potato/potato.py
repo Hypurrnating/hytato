@@ -1,4 +1,4 @@
-import pathlib; import ast; import os; import sys; from zipfile import ZipFile, ZipInfo
+import ast; import os; import sys; from zipfile import ZipFile, ZipInfo
 
 '''
 HTATO stands for HARD POTATO. These files must be created by the HTATO class, and has fixed keys.
@@ -33,7 +33,7 @@ class InvalidSTARCH(Exception):
 def CheckPotatoExistant(fn):
     """must have self parameter and the potato path inside self parameter: self.potato"""
     def func(*args, **kwargs):
-        if args[0].potato.exists() == True:
+        if os.path.exists(args[0].potato) == True:
             raise POTATOExists('Found existing potato file at path')
         return fn(*args, **kwargs)
     return func
@@ -41,7 +41,7 @@ def CheckPotatoExistant(fn):
 def CheckPotatoNonExistant(fn):
     """must have self parameter and the potato path inside self parameter: self.potato"""
     def func(*args, **kwargs):
-        if args[0].potato.exists() == False:
+        if os.path.exists(args[0].potato) == False:
             raise POTATONonExists('Did not find existing potato file at path')
         return fn(*args, **kwargs)
     return func
@@ -81,12 +81,12 @@ class potato_returns():
 
 class POTATO():
     class STATO():
-        def __init__(self, potato: pathlib.Path) -> None:
+        def __init__(self, potato: os.PathLike) -> None:
             """STATO stands for SOFT POTATO. These can have a variable number of keys. Making it more suitable for files that might be used to store temporary data."""
 
-            self.potato = pathlib.Path(potato)
-            split = self.potato.name.split('.')
-            if split[len(split)-1] != 'stato':
+            self.potato = os.fspath(potato)
+            filename = os.path.basename(self.potato).split('.')
+            if filename[len(filename)-1] != 'stato':
                 raise NotSTATO('Not an STATO file')
 
         @CheckPotatoExistant
@@ -220,12 +220,12 @@ class POTATO():
             return potato_returns.stato.StatoInjectReturn(complete=True, update=data, all=data_stained) #all needs to be edited to account for the starch
 
     class HTATO():
-        def __init__(self, potato: pathlib.Path) -> None:
+        def __init__(self, potato: os.PathLike) -> None:
             """HTATO stands for HARD POTATO. These files must be created by the HTATO class, and has fixed keys. Meaning you can not easily add a new key to it. This makes it more suitable for files storing the permanent data like status or settings."""
 
-            self.potato = pathlib.Path(potato)
-            split = self.potato.name.split('.')
-            if split[len(split)-1] != 'htato':
+            self.potato = os.fspath(potato)
+            filename = os.path.basename(self.potato).split('.')
+            if filename[len(filename)-1] != 'htato':
                 raise NotHTATO('Not an HTATO file')
 
         @CheckPotatoExistant
