@@ -16,3 +16,5 @@ def test_htato_inject():
     print(HTATO.INJECT(data={'wee': 43}))
 def test_htato_stain():
     print(HTATO.STAIN())
+
+print('ALL GOOD, or so it seems')
