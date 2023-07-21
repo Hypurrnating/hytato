@@ -7,6 +7,8 @@ def test_stato_plant():
     print(STATO.PLANT(['wee', 'weee', 'weeee']))
 def test_stato_inject():
     print(STATO.INJECT(data={'dsadsad': 43}))
+def test_stato_inject_no_potato():
+    print(POTATO.STATO('.\\test2.stato').INJECT(data={'dsadsad': 43}))
 def test_stato_stain():
     print(STATO.STAIN())
 

@@ -2,8 +2,14 @@
 platform win32 -- Python 3.11.3, pytest-7.4.0, pluggy-1.2.0
 rootdir: C:\Users\imady\Documents\potato
 plugins: anyio-3.6.2
-collected 6 items
+collected 7 items
 
-tester_file.py ......                                                    [100%]
+tester_file.py .......                                                   [100%]
 
-============================== 6 passed in 0.07s ==============================
+============================== warnings summary ===============================
+tester_file.py::test_stato_inject_no_potato
+  C:\Users\imady\Documents\potato\hytato\hytato.py:51: UserWarning: Did not find existing potato file at path. Created one for you
+    warnings.warn('Did not find existing potato file at path. Created one for you')
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 7 passed, 1 warning in 0.09s =========================

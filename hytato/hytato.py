@@ -1,4 +1,4 @@
-import ast; import os; import sys; from zipfile import ZipFile, ZipInfo
+import ast; import os; import sys; from zipfile import ZipFile, ZipInfo; import warnings; import inspect
 
 '''
 HTATO stands for HARD POTATO. These files must be created by the HTATO class, and has fixed keys.
@@ -43,9 +43,14 @@ def CheckPotatoExistant(fn):
 
 def CheckPotatoNonExistant(fn):
     """must have self parameter and the potato path inside self parameter: self.potato"""
+    signature = inspect.signature(fn)
     def func(*args, **kwargs):
         if os.path.exists(args[0].potato) == False:
-            raise POTATONonExists('Did not find existing potato file at path')
+            if signature.parameters.get('plant_if_non_existant'):
+                args[0].PLANT(KEYS=list(kwargs['data'].keys()))
+                warnings.warn('Did not find existing potato file at path. Created one for you')
+            else:
+                raise POTATONonExists('Did not find existing potato file at path')
         return fn(*args, **kwargs)
     return func
 
@@ -141,7 +146,8 @@ class POTATO():
                     parsed[key] = value
             return parsed
 
-        def INJECT(self, data: dict, starch: str = 'data') -> potato_returns.stato.StatoInjectReturn:
+        @CheckPotatoNonExistant
+        def INJECT(self, *, data: dict, starch: str = 'data', plant_if_non_existant: bool = True) -> potato_returns.stato.StatoInjectReturn:
             """Update the data in the potato file at the path. Starch specifies the part you want to edit.\n
             Type 'data' (default) for the simple dictionary stored inside, or 'config' for the preferences set during planting. 'history' is not yet supported
             returns a StatoInjectReturn class with parameters: complete, update, all"""
