@@ -8,7 +8,7 @@ tester_file.py .......                                                   [100%]
 
 ============================== warnings summary ===============================
 tester_file.py::test_stato_inject_no_potato
-  C:\Users\imady\Documents\potato\hytato\hytato.py:51: UserWarning: Did not find existing potato file at path. Created one for you
+  C:\Users\imady\Documents\potato\hytato\hytato.py:88: UserWarning: Did not find existing potato file at path. Created one for you
     warnings.warn('Did not find existing potato file at path. Created one for you')
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html

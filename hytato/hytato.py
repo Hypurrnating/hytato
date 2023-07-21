@@ -1,6 +1,43 @@
-import ast; import os; import sys; from zipfile import ZipFile, ZipInfo; import warnings; import inspect
+import ast; import os; import sys; from zipfile import ZipFile, ZipInfo; import warnings; import inspect; import platform
+
+#since i dont have a linux system, ive trusted the link below to create the lock and unlock defs
+#https://blog.gitnux.com/code/python-file-lock/
+system_os = platform.uname().system
+if system_os == 'Windows':
+    import msvcrt
+    def lock_file(file_descriptor: int, file_path: str):
+        msvcrt.locking(file_descriptor, msvcrt.LK_LOCK, os.path.getsize(file_path))
+
+    def unlock_file(file_descriptor: int, file_path: str):
+        msvcrt.locking(file_descriptor, msvcrt.LK_UNLCK, os.path.getsize(file_path))
+
+elif system_os == 'Linux':
+    import fcntl
+    def lock_file(path: str):
+        file = open(path, 'a')
+        fcntl.flock(file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        file.close()
+
+    def unlock_file(path: str):
+        file = open(path, 'a')
+        fcntl.flock(file.fileno(), fcntl.LOCK_UN)
+        file.close()
+
+elif bool(system_os) == False:
+    warnings.warn('Platform module could not get system os. Hytato will not load')
+    sys.exit()
+else:
+    warnings.warn('Platform module reported an unsupported os. Hytato will not load')
+    sys.exit()
+
 
 '''
+Hyphens Potato is a module allowing you (more me) to store dictionaries in a way that I (yes I) would like.
+I needed a middle ground between a database and json, in addition to it being light, powerful, and just simple
+to interact with (for me). Main thing is probably to not lose your data while using files as a near db
+
+Because of that last one, this is mainly for windows, but supports linux
+
 HTATO stands for HARD POTATO. These files must be created by the HTATO class, and has fixed keys.
 Meaning you can not easily add a new key to it. This makes it more suitable for files storing the 
 permanent data like status or settings.
@@ -144,6 +181,7 @@ class POTATO():
                     key = x[0].strip()
                     value = ast.literal_eval(x[1].strip())
                     parsed[key] = value
+
             return parsed
 
         @CheckPotatoNonExistant
@@ -264,6 +302,7 @@ class POTATO():
                 key = x[0].strip()
                 value = ast.literal_eval(x[1].strip())
                 parsed[key] = value
+
             return parsed
 
         @CheckPotatoNonExistant
