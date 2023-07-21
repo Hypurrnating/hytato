@@ -1,4 +1,4 @@
-from potato import *
+from hytato import *
 
 STATO = POTATO.STATO('.\\test.stato')
 HTATO = POTATO.HTATO('.\\test.htato')

@@ -1,4 +1,4 @@
-# potato
+# hytato
  Module for storing python dictionaries in a different format.
 
 Supported down to python 3.2.
