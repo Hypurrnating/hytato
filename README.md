@@ -46,5 +46,4 @@ if injection.complete == True:
 #to access the data from potato, use the stain method:
 config = config_potato.STAIN()
 #and just use the dictionary it returns
-token = config.get('token')
-```
+token = config.get('token')```
