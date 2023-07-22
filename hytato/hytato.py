@@ -1,7 +1,30 @@
-import ast; import os; import sys; from zipfile import ZipFile, ZipInfo; import warnings; import inspect; import platform
+import ast; import os; import sys; from zipfile import ZipFile, ZipInfo; import warnings; import inspect; import platform; import multiprocessing; import time
+'''
+Hyphens Potato is a module allowing you (more me) to store dictionaries in a way that I (yes I) would like.
+I needed a middle ground between a database and json, in addition to it being light, powerful, and just simple
+to interact with (for me). Main thing is probably to not lose your data while using files as a near db
 
-#since i dont have a linux system, ive trusted the link below to create the lock and unlock defs
-#https://blog.gitnux.com/code/python-file-lock/
+Because of that last one, this is mainly for windows, but supports linux
+OS is only important if you use HTATO though. Since file locking was difficult for zip archives, which is what
+STATO files actually are. STATO uses a flag file inside to indicate some other process is inside. There is a 
+timeout on the file though. If a process wait for more than 5 seconds (too much time in computer terms) then it
+ignores it carries on. This only affects inject operations btw. Any read operations in stato do not give regard 
+to the flag.
+I would very much prefer STATO also use msvcrt & fcntl filelocks. The issue I faced was with file descriptors.
+If someone has a suggestion on getting file descriptors from zip files hmu pls!
+
+HTATO stands for HARD POTATO. These files must be created by the HTATO class, and has fixed keys.
+Meaning you can not easily add a new key to it. This makes it more suitable for files storing the 
+permanent data like status or settings.
+
+STATO stands for SOFT POTATO. These can have a variable number of keys. Making it more suitable
+for files that might be used to store temporary data.
+
+Apart from the number of keys, HTATO and STATO have other characteristics that make it suitable for their use
+
+.potato files are for use by potato lib only (!)
+'''
+
 system_os = platform.uname().system
 if system_os == 'Windows':
     import msvcrt
@@ -29,26 +52,6 @@ elif bool(system_os) == False:
 else:
     warnings.warn('Platform module reported an unsupported os. Hytato will not load')
     sys.exit()
-
-
-'''
-Hyphens Potato is a module allowing you (more me) to store dictionaries in a way that I (yes I) would like.
-I needed a middle ground between a database and json, in addition to it being light, powerful, and just simple
-to interact with (for me). Main thing is probably to not lose your data while using files as a near db
-
-Because of that last one, this is mainly for windows, but supports linux
-
-HTATO stands for HARD POTATO. These files must be created by the HTATO class, and has fixed keys.
-Meaning you can not easily add a new key to it. This makes it more suitable for files storing the 
-permanent data like status or settings.
-
-STATO stands for SOFT POTATO. These can have a variable number of keys. Making it more suitable
-for files that might be used to store temporary data.
-
-Apart from the number of keys, HTATO and STATO have other characteristics that make it suitable for their use
-
-.potato files are for use by potato lib only (!)
-'''
 
 version_major = int(sys.version_info.major)
 version_minor = int(sys.version_info.minor)
@@ -256,12 +259,30 @@ class POTATO():
 
                 zipfile.close()
 
-            #after this, the old potato is cleared...
+
+            flag_file_path = os.path.dirname(self.potato) + '\\' + (os.path.basename(self.potato).split('.')[0] + '.flag')
+            green_light = False
+            start = time.perf_counter()
+            #about 6 - 8 seconds
+            for x in range(70000000):
+                if os.path.exists(flag_file_path):
+                    pass
+                else:
+                    green_light = True
+                    break
+            stop = time.perf_counter()
+            if green_light == False:
+                warnings.warn('The inject method waited {} fractional seconds before ignoring the flag.'.format(stop-start))
+
             with ZipFile(self.potato, 'w') as zipfile:
+                with open(flag_file_path, 'w') as flag_file:
+                    flag_file.write(str([multiprocessing.process.current_process(), platform.python_build(), platform.uname()]))
+                    flag_file.close()
                 zipfile.writestr(data=potatofile_string, zinfo_or_arcname='data.potato')
                 zipfile.writestr(data=configfile_string, zinfo_or_arcname='config.potato')
                 for x in history.keys():
                     zipfile.writestr(data=history[x], zinfo_or_arcname=x)
+                os.remove(flag_file_path)
                 zipfile.close()
 
             return potato_returns.stato.StatoInjectReturn(complete=True, update=data, all=data_stained) #all needs to be edited to account for the starch
