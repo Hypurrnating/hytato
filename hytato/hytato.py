@@ -36,15 +36,11 @@ if system_os == 'Windows':
 
 elif system_os == 'Linux':
     import fcntl
-    def lock_file(path: str):
-        file = open(path, 'a')
-        fcntl.flock(file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-        file.close()
+    def lock_file(file_descriptor: int, file_path: str):
+        fcntl.flock(file_descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
 
-    def unlock_file(path: str):
-        file = open(path, 'a')
-        fcntl.flock(file.fileno(), fcntl.LOCK_UN)
-        file.close()
+    def unlock_file(file_descriptor: int, file_path: str):
+        fcntl.flock(file_descriptor, fcntl.LOCK_UN)
 
 elif bool(system_os) == False:
     warnings.warn('Platform module could not get system os. Hytato will not load')
@@ -343,8 +339,11 @@ class POTATO():
                 if type(value) == str:
                     value = '"{}"'.format(value)
                 potatofile_string += '{}: {}'.format(key, value) + '\n'
+
             potatofile = open(self.potato, 'w')
+            lock_file(potatofile.fileno(), self.potato)
             potatofile.write(potatofile_string)
+            unlock_file(potatofile.fileno(), self.potato)
             potatofile.close()
 
             return potato_returns().htato().HtatoInjectReturn(complete=True, update=data, all=stained)
