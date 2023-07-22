@@ -1,14 +1,17 @@
 import setuptools; import re
 
-with open('README.md', 'r') as file:
-    readme = file.read()
-    file.close()
+# https://packaging.python.org/en/latest/guides/making-a-pypi-friendly-readme/
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
+
 
 setuptools.setup(
     name='hytato',
     description='Module for storing python dictionaries in a different format.',
     version='0.3',
-    long_description=readme,
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Hypurrnating',
     url='https://github.com/Hypurrnating/potato',
     license="MIT",

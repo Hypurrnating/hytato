@@ -20,7 +20,8 @@ This means you can store a "tree" of data, and also version history
 
 ### Usage
 HTATO example:
-```py
+
+```
 from hytato import POTATO
 
 #Add the path of the potato file in HTATO class, which will have either the .htato or .stato file extension.
@@ -46,4 +47,5 @@ if injection.complete == True:
 #to access the data from potato, use the stain method:
 config = config_potato.STAIN()
 #and just use the dictionary it returns
-token = config.get('token')```
+token = config.get('token')
+```
