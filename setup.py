@@ -20,7 +20,7 @@ setuptools.setup(
                     "License :: OSI Approved :: MIT License",
                     "Operating System :: Microsoft :: Windows",
                     "Operating System :: Unix"],
-    python_requires=">=3.2",
+    python_requires=">=3.3",
     install_requires=[],
     include_package_data=True,
 )
