@@ -1,4 +1,4 @@
-from hytato import *; import asyncio
+from hytato import *
 
 STATO = POTATO.STATO('.\\test.stato')
 HTATO = POTATO.HTATO('.\\test.htato')
