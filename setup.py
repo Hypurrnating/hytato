@@ -7,6 +7,7 @@ with open('README.md', 'r') as file:
 setuptools.setup(
     name='hytato',
     description='Module for storing python dictionaries in a different format.',
+    version='0.2.2',
     long_description=readme,
     author='Hypurrnating',
     url='https://github.com/Hypurrnating/potato',

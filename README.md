@@ -1,5 +1,5 @@
 # hytato
- Module for storing python dictionaries in a different format.\
+Module for storing python dictionaries in a different format.\
 Supported down to python 3.3.
 
 ### why?
@@ -7,7 +7,7 @@ cause why not?\
 Needed a way to store data in a way that fit *my* needs, and so decided to create potato(lib)\
 Potato works with dictionaries. You could use json for that but as I said, needed something for *my* needs.
 
-Also the main module is called hytato, since potato was taken...
+Also, the main module is called hytato, since potato was taken...
 
 ### Potato types
 There are two different kinds of potato files: HTATO and STATO.
