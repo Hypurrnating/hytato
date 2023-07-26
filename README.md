@@ -1,6 +1,7 @@
 # hytato
 Module for storing python dictionaries in a different format.
-Supported down to python 3.3.
+Supported down to python 3.3.\ 
+WIP... 
 
 ### why?
 cause why not?
