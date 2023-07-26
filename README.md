@@ -22,7 +22,7 @@ This means you can store a "tree" of data, and also version history
 ### Usage
 HTATO example:
 
-```
+```py
 from hytato import POTATO
 
 #Add the path of the potato file in HTATO class, which will have either the .htato or .stato file extension.
